@@ -1,0 +1,13 @@
+{
+  "name": "@intentctrl-cloud/typescript-config",
+  "version": "1.0.0",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "./base": "./base.json",
+    "./next": "./next.json",
+    "./react-library": "./react-library.json"
+  }
+}

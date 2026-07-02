@@ -1,0 +1,4 @@
+pnpm lint-staged
+pnpm changeset status --since=origin/main
+pnpm run check-types
+pnpm run build

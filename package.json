@@ -1,0 +1,36 @@
+{
+  "name": "intentctrl-cloud",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,mdx,css,yaml,yml}\"",
+    "check-types": "turbo run check-types",
+    "changeset": "changeset",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "@intentctrl-cloud/eslint-config": "workspace:*",
+    "eslint": "catalog:",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
+    "prettier": "^3.7.4",
+    "turbo": "2.9.4",
+    "typescript": "catalog:"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yaml,yml,css}": [
+      "prettier --write"
+    ]
+  },
+  "packageManager": "pnpm@11.5.2",
+  "engines": {
+    "node": ">=22"
+  }
+}

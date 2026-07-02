@@ -1,0 +1,35 @@
+name: PR check
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changeset-check:
+    name: Changeset check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: github.head_ref != 'changeset-release/main'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Check changeset exists
+        run: pnpm changeset status --since=origin/main

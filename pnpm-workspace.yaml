@@ -1,0 +1,17 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+
+catalog:
+  drizzle-orm: "^0.45.2"
+  pg: "^8.21.0"
+  zod: "^4.4.3"
+  eslint: "^9.39.4"
+  typescript: "5.9.2"
+  "@types/pg": "^8.11.14"
+  drizzle-kit: "^0.31.10"
+  tsdown: "^0.22.3"
