@@ -22,7 +22,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <DirectionProvider dir="ltr">
+      <DirectionProvider direction="ltr">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <TooltipProvider>
             {children}

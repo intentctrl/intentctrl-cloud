@@ -111,10 +111,8 @@ export function ChatSessionsTable(props: ChatSessionsTableProps) {
         const session = row.original;
         return (
           <div className="flex items-center gap-1">
-            <Button variant="ghost" size="icon" asChild>
-              <Link href={`/chat/${session.id}`}>
-                <IconEye className="size-4" />
-              </Link>
+            <Button variant="ghost" size="icon" render={<Link href={`/chat/${session.id}`} />} nativeButton={false}>
+              <IconEye className="size-4" />
             </Button>
             <Button
               variant="ghost"
@@ -233,9 +231,7 @@ export function ChatSessionsTable(props: ChatSessionsTableProps) {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
+            <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
             <Button variant="destructive" onClick={handleDeleteConfirm}>
               Delete
             </Button>

@@ -52,3 +52,4 @@ jobs:
           title: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          HUSKY: 0
