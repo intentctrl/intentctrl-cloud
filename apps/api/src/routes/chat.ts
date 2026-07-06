@@ -65,6 +65,26 @@ export default async function chatRoute(fastify: FastifyInstance) {
     reply.success(result);
   });
 
+  fastify.get("/chat/sessions/visitor/:visitorId", async (request: FastifyRequest, reply: FastifyReply) => {
+    const { visitorId } = request.params as { visitorId: string };
+
+    const parsed = PaginationQuerySchema.safeParse(request.query);
+    if (!parsed.success) {
+      reply.fail(400, "Invalid pagination parameters");
+      return;
+    }
+
+    const result = await getPaginatedSessions(fastify.db, {
+      ...parsed.data,
+      columnFilters: [
+        ...parsed.data.columnFilters,
+        { id: "visitorId", value: visitorId },
+        { id: "active", value: "true" },
+      ],
+    });
+    reply.success(result);
+  });
+
   fastify.get("/chat/sessions/:sessionId", async (request: FastifyRequest, reply: FastifyReply) => {
     const { sessionId } = request.params as { sessionId: string };
 
@@ -75,6 +95,29 @@ export default async function chatRoute(fastify: FastifyInstance) {
     }
 
     reply.success(result);
+  });
+
+  fastify.get("/chat/sessions/:sessionId/messages/:visitorId", async (request: FastifyRequest, reply: FastifyReply) => {
+    const { sessionId, visitorId } = request.params as { sessionId: string; visitorId: string };
+
+    const result = await findSessionById(fastify.db, sessionId);
+    if (!result) {
+      reply.fail(404, "Chat session not found");
+      return;
+    }
+    if (result.session.visitorId !== visitorId) {
+      reply.fail(403, "Visitor mismatch");
+      return;
+    }
+
+    reply.success(
+      result.messages.map((m) => ({
+        id: m.id,
+        role: m.role,
+        parts: m.parts as UIMessage["parts"],
+        metadata: m.metadata ?? undefined,
+      })) as UIMessage[],
+    );
   });
 
   fastify.get("/chat/sessions/:sessionId/messages", async (request: FastifyRequest, reply: FastifyReply) => {

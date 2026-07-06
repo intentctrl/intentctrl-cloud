@@ -4,6 +4,57 @@ import type { DB } from "@intentctrl-cloud/db";
 import type { CreateChatSessionRequest, SortItem, FilterItem } from "@intentctrl-cloud/types";
 import type { UIMessage } from "ai";
 
+const ADJECTIVES = [
+  "Swift",
+  "Bright",
+  "Calm",
+  "Bold",
+  "Quiet",
+  "Sharp",
+  "Warm",
+  "Cool",
+  "Rapid",
+  "Clear",
+  "Brave",
+  "Lucky",
+  "Smart",
+  "Kind",
+  "Fresh",
+  "Happy",
+  "Brisk",
+  "Sleek",
+  "Neat",
+  "Fair",
+];
+const NOUNS = [
+  "Panda",
+  "Tiger",
+  "Eagle",
+  "Dolphin",
+  "Fox",
+  "Wolf",
+  "Hawk",
+  "Lynx",
+  "Otter",
+  "Crane",
+  "Bear",
+  "Salmon",
+  "Robin",
+  "Coral",
+  "Lunar",
+  "Solar",
+  "Maple",
+  "Pine",
+  "Stone",
+  "River",
+];
+
+function randomTitle(): string {
+  const adj = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)]!;
+  const noun = NOUNS[Math.floor(Math.random() * NOUNS.length)]!;
+  return `${adj} ${noun}`;
+}
+
 export async function upsertMessage(db: DB, sessionId: string, message: UIMessage): Promise<UIMessage[]> {
   const [session] = await db
     .select({ id: chatSessions.id })
@@ -78,6 +129,7 @@ export async function findSessionById(db: DB, id: string) {
       externalUserId: chatSessions.externalUserId,
       visitorId: chatSessions.visitorId,
       active: chatSessions.active,
+      title: chatSessions.title,
       createdAt: chatSessions.createdAt,
       updatedAt: chatSessions.updatedAt,
     })
@@ -102,6 +154,7 @@ export async function createSession(db: DB, data: CreateChatSessionRequest) {
     .values({
       visitorId: data.visitorId,
       externalUserId: data.externalUserId ?? null,
+      title: randomTitle(),
     })
     .returning();
   return session;
@@ -152,6 +205,7 @@ export async function getPaginatedSessions(
       externalUserId: chatSessions.externalUserId,
       visitorId: chatSessions.visitorId,
       active: chatSessions.active,
+      title: chatSessions.title,
       createdAt: chatSessions.createdAt,
       updatedAt: chatSessions.updatedAt,
     })

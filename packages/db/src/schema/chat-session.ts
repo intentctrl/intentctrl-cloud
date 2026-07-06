@@ -10,6 +10,7 @@ export const chatSessions = pgTable(
     externalUserId: text("external_user_id"),
     visitorId: text("visitor_id").notNull(),
     active: boolean("active").default(true).notNull(),
+    title: text("title").notNull().default(""),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .defaultNow()

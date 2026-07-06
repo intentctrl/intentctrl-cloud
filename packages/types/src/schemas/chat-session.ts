@@ -13,6 +13,7 @@ export const ChatSessionResponseSchema = z.object({
   externalUserId: z.string().nullable(),
   visitorId: z.string(),
   active: z.boolean(),
+  title: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
